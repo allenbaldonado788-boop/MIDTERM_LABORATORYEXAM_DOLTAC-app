@@ -16,9 +16,7 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
 
-RUN touch database/database.sqlite
-RUN php artisan migrate --force
-
+# Use a startup script or combined command to run migrations at runtime when APP_KEY is present
 EXPOSE 10000
 
-CMD php artisan serve --host=0.0.0.0 --port=10000
+CMD touch database/database.sqlite && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
