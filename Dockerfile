@@ -16,7 +16,10 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
 
-# Use a startup script or combined command to run migrations at runtime when APP_KEY is present
 EXPOSE 10000
 
-CMD touch database/database.sqlite && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
+CMD mkdir -p database storage/framework/sessions storage/framework/views storage/framework/cache && \
+    touch database/database.sqlite && \
+    chmod -R 777 database storage bootstrap/cache && \
+    php artisan migrate --force && \
+    php artisan serve --host=0.0.0.0 --port=10000
