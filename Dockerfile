@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git
 
-RUN docker-php-ext-install pdo pdo_sqlite
+RUN docker-php-ext-install pdo_sqlite
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -22,4 +22,4 @@ CMD mkdir -p database storage/framework/sessions storage/framework/views storage
     touch database/database.sqlite && \
     chmod -R 777 database storage bootstrap/cache && \
     php artisan migrate --force && \
-    php artisan serve --host=0.0.0.0 --port=10000
+    php -S 0.0.0.0:10000 -t public
